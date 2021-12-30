@@ -3,7 +3,7 @@
     "description": "Finds classes, interfaces, traits, and enums.",
     "type": "library",
     "require": {
-        "php": "~8.0 || ~8.1 || ~7.4"
+        "php": "~8.0.0 || ~8.1.0 || ~7.4.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5"
