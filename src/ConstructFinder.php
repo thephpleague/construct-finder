@@ -26,6 +26,7 @@ use function preg_match;
 use function preg_quote;
 use function str_ends_with;
 use function str_replace;
+use function substr;
 use function token_get_all;
 use function trim;
 
@@ -129,7 +130,7 @@ class ConstructFinder
 
             $realPath = $file->getRealPath();
 
-            if ( ! str_ends_with($realPath, '.php')) {
+            if ( ! substr($realPath, -4) ===  '.php') {
                 continue;
             }
 
@@ -137,7 +138,7 @@ class ConstructFinder
         }
     }
 
-    public static function locatedIn(string ... $directory): static
+    public static function locatedIn(string ... $directory): self
     {
         return new static($directory);
     }
@@ -156,7 +157,7 @@ class ConstructFinder
 
         $tokens = array_filter(
             $tokens,
-            fn(array|string $token) => ! in_array($token[0], [T_COMMENT, T_DOC_COMMENT, T_WHITESPACE]),
+            fn($token) => ! in_array($token[0], [T_COMMENT, T_DOC_COMMENT, T_WHITESPACE]),
         );
         $tokens = array_values($tokens);
 
