@@ -17,10 +17,9 @@ class Construct implements Stringable
      */
     public function __construct(private string $name, private string $type)
     {
-        assert(
-            in_array($this->type, ['trait', 'class', 'enum', 'interface']),
-            new InvalidArgumentException('Construct type must be one of: class, trait, enum, or interface.'),
-        );
+        if ( ! in_array($this->type, ['trait', 'class', 'enum', 'interface'])) {
+            throw new InvalidArgumentException('Construct type must be one of: class, trait, enum, or interface.');
+        }
     }
 
     public function name(): string

@@ -28,8 +28,6 @@ class ConstructTest extends TestCase
      */
     public function invalid_types_are_rejected(): void
     {
-        assert_options(ASSERT_ACTIVE, 1);
-
         $this->expectException(InvalidArgumentException::class);
 
         new Construct(ConstructTest::class, 'invalid');
