@@ -18,6 +18,7 @@ use function count;
 use function define;
 use function defined;
 use function file_get_contents;
+use function implode;
 use function in_array;
 use function is_a;
 use function is_array;
@@ -39,6 +40,7 @@ use const T_ENUM;
 use const T_INTERFACE;
 use const T_NAMESPACE;
 use const T_NEW;
+use const T_STRING;
 use const T_TRAIT;
 use const T_WHITESPACE;
 use const TOKEN_PARSE;
@@ -193,11 +195,28 @@ class ConstructFinder
             return '';
         }
 
-        if ($token[0] === T_NAME_QUALIFIED) {
+        if (defined('T_NAME_QUALIFIED') && $token[0] === T_NAME_QUALIFIED) {
             return (string) $token[1];
         }
 
-        return '';
+        $parts = [];
+
+        while (true) {
+            $index++;
+            $token = $tokens[$index] ?? '';
+
+            if ( ! is_array($token)) {
+                break;
+            }
+
+            if ( ! in_array($token[0], [T_NS_SEPARATOR, T_STRING])) {
+                break;
+            }
+
+            $parts[] = $token[1];
+        }
+
+        return implode('', $parts);
     }
 
     private static function isNew(int $index, array $tokens): bool
