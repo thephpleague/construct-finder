@@ -7,6 +7,8 @@ namespace League\ConstructFinder;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
+use const ASSERT_ACTIVE;
+
 class ConstructTest extends TestCase
 {
     /**
@@ -26,6 +28,8 @@ class ConstructTest extends TestCase
      */
     public function invalid_types_are_rejected(): void
     {
+        assert_options(ASSERT_ACTIVE, 1);
+
         $this->expectException(InvalidArgumentException::class);
 
         new Construct(ConstructTest::class, 'invalid');
