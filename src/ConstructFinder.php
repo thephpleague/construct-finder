@@ -7,30 +7,23 @@ namespace League\ConstructFinder;
 use Generator;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
-use ReflectionClass;
 use SplFileInfo;
 
 use function array_filter;
 use function array_key_exists;
-use function array_push;
 use function array_values;
-use function count;
-use function define;
 use function defined;
 use function file_get_contents;
 use function implode;
 use function in_array;
-use function is_a;
 use function is_array;
 use function iterator_to_array;
 use function preg_match;
 use function preg_quote;
-use function str_ends_with;
 use function str_replace;
 use function substr;
 use function token_get_all;
 use function trim;
-
 use function usort;
 
 use const T_CLASS;
@@ -132,7 +125,7 @@ class ConstructFinder
 
             $realPath = $file->getRealPath();
 
-            if ( ! substr($realPath, -4) ===  '.php') {
+            if ( ! substr($realPath, -4) === '.php') {
                 continue;
             }
 
@@ -140,7 +133,7 @@ class ConstructFinder
         }
     }
 
-    public static function locatedIn(string ... $directory): self
+    public static function locatedIn(string ...$directory): self
     {
         return new static($directory);
     }
