@@ -26,6 +26,8 @@ use function token_get_all;
 use function trim;
 use function usort;
 
+use function var_dump;
+
 use const T_CLASS;
 use const T_COMMENT;
 use const T_DOC_COMMENT;
@@ -235,8 +237,8 @@ class ConstructFinder
         $parts = [];
 
         while (true) {
-            $index++;
             $token = $tokens[$index] ?? '';
+            $index++;
 
             if ( ! is_array($token)) {
                 break;
