@@ -72,6 +72,26 @@ class ConstructFinder
         return array_values($constructs);
     }
 
+    public function findAllNames(): array
+    {
+        return $this->convertConstructsToStrings($this->findAll());
+    }
+
+    /**
+     * @param Construct[] $constructs
+     * @return string[]
+     */
+    private function convertConstructsToStrings(array $constructs): array
+    {
+        $classNames = [];
+
+        foreach ($constructs as $construct) {
+            $classNames[] = $construct->name();
+        }
+
+        return $classNames;
+    }
+
     /**
      * @return Construct[]
      */
@@ -90,12 +110,22 @@ class ConstructFinder
         return $this->findOfType('class');
     }
 
+    public function findClassNames(): array
+    {
+        return $this->convertConstructsToStrings($this->findClasses());
+    }
+
     /**
      * @return Construct[]
      */
     public function findEnums(): array
     {
         return $this->findOfType('enum');
+    }
+
+    public function findEnumNames(): array
+    {
+        return $this->convertConstructsToStrings($this->findEnums());
     }
 
     /**
@@ -106,9 +136,19 @@ class ConstructFinder
         return $this->findOfType('interface');
     }
 
+    public function findInterfaceNames(): array
+    {
+        return $this->convertConstructsToStrings($this->findInterfaces());
+    }
+
     public function findTraits(): array
     {
         return $this->findOfType('trait');
+    }
+
+    public function findTraitNames(): array
+    {
+        return $this->convertConstructsToStrings($this->findTraits());
     }
 
     private function locatePathsIn(string $directory): Generator
