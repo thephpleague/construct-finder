@@ -20,18 +20,23 @@ use League\ConstructFinder\ConstructFinder;
 
 // Find all constructs
 $constructs = ConstructFinder::locatedIn(__DIR__ . '/SomeDirectory')->findAll();
+$constructNames = ConstructFinder::locatedIn(__DIR__ . '/SomeDirectory')->findAllNames();
 
 // Find all classes
 $constructs = ConstructFinder::locatedIn(__DIR__ . '/SomeDirectory')->findClasses();
+$constructNames = ConstructFinder::locatedIn(__DIR__ . '/SomeDirectory')->findClassNames()
 
 // Find all interfaces
 $constructs = ConstructFinder::locatedIn(__DIR__ . '/SomeDirectory')->findInterfaces();
+$constructNames = ConstructFinder::locatedIn(__DIR__ . '/SomeDirectory')->findInterfaceNames();
 
 // Find all enums
 $constructs = ConstructFinder::locatedIn(__DIR__ . '/SomeDirectory')->findEnums();
+$constructNames = ConstructFinder::locatedIn(__DIR__ . '/SomeDirectory')->findEnumNames();
 
 // Find all traits
 $constructs = ConstructFinder::locatedIn(__DIR__ . '/SomeDirectory')->findTraits();
+$constructNames = ConstructFinder::locatedIn(__DIR__ . '/SomeDirectory')->findTraitNames();
 ```
 
 ### Using a construct
