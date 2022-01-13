@@ -10,12 +10,17 @@ use function in_array;
 
 class Construct
 {
+    /** @var class-string */
     private string $name;
 
+    /** @var 'trait'|'class'|'enum'|'interface' */
     private string $type;
 
     /**
      * @internal
+     *
+     * @param class-string $name
+     * @param 'trait'|'class'|'enum'|'interface' $type
      */
     public function __construct(string $name, string $type)
     {
@@ -35,6 +40,9 @@ class Construct
         return $this->name;
     }
 
+    /**
+     * @return 'trait'|'class'|'enum'|'interface'
+     */
     public function type(): string
     {
         return $this->type;

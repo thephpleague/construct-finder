@@ -40,6 +40,9 @@ use const TOKEN_PARSE;
 
 class ConstructFinder
 {
+    /**
+     * @var string[]
+     */
     private array $locations;
 
     /**
@@ -47,6 +50,9 @@ class ConstructFinder
      */
     private array $excludes = [];
 
+    /**
+     * @param string[] $locations
+     */
     public function __construct(array $locations)
     {
         $this->locations = $locations;
@@ -96,6 +102,7 @@ class ConstructFinder
     }
 
     /**
+     * @param 'trait'|'class'|'enum'|'interface' $type
      * @return Construct[]
      */
     public function findOfType(string $type): array
@@ -169,6 +176,9 @@ class ConstructFinder
         return $this->convertConstructsToStrings($this->findTraits());
     }
 
+    /**
+     * @return Generator<string>
+     */
     private function locatePathsIn(string $directory): Generator
     {
         $iterator = new RecursiveIteratorIterator(
@@ -196,6 +206,9 @@ class ConstructFinder
         return new static($directory);
     }
 
+    /**
+     * @return Construct[]
+     */
     private static function findConstructsInPath(string $path): array
     {
         $source = file_get_contents($path) ?: '';
@@ -238,6 +251,9 @@ class ConstructFinder
         return $classes;
     }
 
+    /**
+     * @param array<int, array<int, int|string>|string> $tokens
+     */
     private static function collectNamespace(int $index, array $tokens): string
     {
         $token = $tokens[$index] ?? '';
@@ -270,6 +286,9 @@ class ConstructFinder
         return implode('', $parts);
     }
 
+    /**
+     * @param array<int, array<int, int|string>|string> $tokens
+     */
     private static function isNew(int $index, array $tokens): bool
     {
         $token = $tokens[$index] ?? '';
@@ -298,6 +317,9 @@ class ConstructFinder
         return $patterns;
     }
 
+    /**
+     * @return Generator<string>
+     */
     private function listAllFiles(): Generator
     {
         foreach ($this->locations as $location) {
@@ -305,6 +327,11 @@ class ConstructFinder
         }
     }
 
+    /**
+     * @param Generator<string> $listing
+     *
+     * @return Generator<string>
+     */
     private function processExcludes(Generator $listing): Generator
     {
         foreach ($listing as $path) {
@@ -319,6 +346,11 @@ class ConstructFinder
         }
     }
 
+    /**
+     * @param Generator<string> $listing
+     *
+     * @return Generator<Construct>
+     */
     private function collectConstructs(Generator $listing): Generator
     {
         foreach ($listing as $path) {
