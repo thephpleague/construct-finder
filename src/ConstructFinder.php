@@ -75,7 +75,7 @@ class ConstructFinder
 
         usort($constructs, fn(Construct $a, Construct $b) => $a->name() <=> $b->name());
 
-        return array_values($constructs);
+        return $constructs;
     }
 
     /**
