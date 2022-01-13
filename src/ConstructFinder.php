@@ -245,6 +245,7 @@ class ConstructFinder
             $classToken = $tokens[$index + 1];
             $type = $interestingTokens[$token[0]];
             $name = trim("$namespace\\$classToken[1]", '\\');
+            // @phpstan-ignore-next-line since we know $name is a class-string
             $classes[] = new Construct($name, $type);
         }
 
