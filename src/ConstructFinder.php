@@ -203,7 +203,7 @@ class ConstructFinder
 
     public static function locatedIn(string ...$directory): self
     {
-        return new static($directory);
+        return new self($directory);
     }
 
     /**
@@ -235,10 +235,10 @@ class ConstructFinder
             }
 
             if ($token[0] === T_NAMESPACE) {
-                $namespace = static::collectNamespace($index + 1, $tokens);
+                $namespace = self::collectNamespace($index + 1, $tokens);
             }
 
-            if (array_key_exists($token[0], $interestingTokens) === false || static::isNew($index - 1, $tokens)) {
+            if (array_key_exists($token[0], $interestingTokens) === false || self::isNew($index - 1, $tokens)) {
                 continue;
             }
 
