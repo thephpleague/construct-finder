@@ -45,3 +45,6 @@ jobs:
 
       - name: Execute tests
         run: vendor/bin/phpunit --verbose --testdox --coverage-text
+
+      - name: Execute phpstan
+        run: vendor/bin/phpstan analyse --no-progress

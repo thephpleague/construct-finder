@@ -1,3 +1,4 @@
 /vendor
 /coverage
+/phpstan.neon
 /.phpunit.result.cache
