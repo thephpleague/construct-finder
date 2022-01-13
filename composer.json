@@ -20,5 +20,18 @@
             "name": "Frank de Jonge",
             "email": "info@frankdejonge.nl"
         }
-    ]
+    ],
+    "scripts": {
+        "phpstan": "phpstan analyse -l max -c phpstan.neon.dist src --ansi --memory-limit=192M",
+        "phpunit": "phpunit --coverage-text",
+        "test": [
+            "@phpunit",
+            "@phpstan"
+        ]
+    },
+    "scripts-descriptions": {
+        "phpstan": "Runs complete codebase static analysis",
+        "phpunit": "Runs unit and functional testing",
+        "test": "Runs full test suite"
+    }
 }

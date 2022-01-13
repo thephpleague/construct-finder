@@ -40,18 +40,14 @@ use const TOKEN_PARSE;
 
 class ConstructFinder
 {
-    /**
-     * @var string[]
-     */
+    /** @var array<string> */
     private array $locations;
 
-    /**
-     * @var string[]
-     */
+    /** @var array<string> */
     private array $excludes = [];
 
     /**
-     * @param string[] $locations
+     * @param array<string> $locations
      */
     public function __construct(array $locations)
     {
@@ -66,7 +62,7 @@ class ConstructFinder
     }
 
     /**
-     * @return Construct[]
+     * @return array<Construct>
      */
     public function findAll(): array
     {
@@ -79,7 +75,7 @@ class ConstructFinder
     }
 
     /**
-     * @return class-string[]
+     * @return array<class-string>
      */
     public function findAllNames(): array
     {
@@ -87,8 +83,8 @@ class ConstructFinder
     }
 
     /**
-     * @param Construct[] $constructs
-     * @return class-string[]
+     * @param array<Construct> $constructs
+     * @return array<class-string>
      */
     private function convertConstructsToStrings(array $constructs): array
     {
@@ -103,7 +99,7 @@ class ConstructFinder
 
     /**
      * @param 'trait'|'class'|'enum'|'interface' $type
-     * @return Construct[]
+     * @return array<Construct>
      */
     public function findOfType(string $type): array
     {
@@ -113,7 +109,7 @@ class ConstructFinder
     }
 
     /**
-     * @return Construct[]
+     * @return array<Construct>
      */
     public function findClasses(): array
     {
@@ -121,7 +117,7 @@ class ConstructFinder
     }
 
     /**
-     * @return class-string[]
+     * @return array<class-string>
      */
     public function findClassNames(): array
     {
@@ -129,7 +125,7 @@ class ConstructFinder
     }
 
     /**
-     * @return Construct[]
+     * @return array<Construct>
      */
     public function findEnums(): array
     {
@@ -137,7 +133,7 @@ class ConstructFinder
     }
 
     /**
-     * @return class-string[]
+     * @return array<class-string>
      */
     public function findEnumNames(): array
     {
@@ -145,7 +141,7 @@ class ConstructFinder
     }
 
     /**
-     * @return Construct[]
+     * @return array<Construct>
      */
     public function findInterfaces(): array
     {
@@ -153,7 +149,7 @@ class ConstructFinder
     }
 
     /**
-     * @return class-string[]
+     * @return array<class-string>
      */
     public function findInterfaceNames(): array
     {
@@ -161,7 +157,7 @@ class ConstructFinder
     }
 
     /**
-     * @return Construct[]
+     * @return array<Construct>
      */
     public function findTraits(): array
     {
@@ -169,7 +165,7 @@ class ConstructFinder
     }
 
     /**
-     * @return class-string[]
+     * @return array<class-string>
      */
     public function findTraitNames(): array
     {
@@ -207,7 +203,7 @@ class ConstructFinder
     }
 
     /**
-     * @return Construct[]
+     * @return array<Construct>
      */
     private static function findConstructsInPath(string $path): array
     {
@@ -304,8 +300,8 @@ class ConstructFinder
     }
 
     /**
-     * @param string[] $patterns
-     * @return string[]
+     * @param array<string> $patterns
+     * @return array<string>
      */
     private function prepPatterns(array $patterns): array
     {

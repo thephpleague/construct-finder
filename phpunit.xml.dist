@@ -9,6 +9,11 @@
             <directory suffix="Test.php">src/</directory>
             <directory>src/Fixtures</directory>
         </exclude>
+        <report>
+            <clover outputFile="build/clover.xml"/>
+            <html outputDirectory="build/coverage"/>
+            <xml outputDirectory="build/coverage-xml"/>
+        </report>
     </coverage>
     <testsuites>
         <testsuite name="Tests">
