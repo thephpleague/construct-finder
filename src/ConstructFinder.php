@@ -40,6 +40,9 @@ use const TOKEN_PARSE;
 
 class ConstructFinder
 {
+    /**
+     * @var string[]
+     */
     private array $locations;
 
     /**
@@ -47,6 +50,9 @@ class ConstructFinder
      */
     private array $excludes = [];
 
+    /**
+     * @param string[] $locations
+     */
     public function __construct(array $locations)
     {
         $this->locations = $locations;
@@ -69,9 +75,12 @@ class ConstructFinder
 
         usort($constructs, fn(Construct $a, Construct $b) => $a->name() <=> $b->name());
 
-        return array_values($constructs);
+        return $constructs;
     }
 
+    /**
+     * @return class-string[]
+     */
     public function findAllNames(): array
     {
         return $this->convertConstructsToStrings($this->findAll());
@@ -79,7 +88,7 @@ class ConstructFinder
 
     /**
      * @param Construct[] $constructs
-     * @return string[]
+     * @return class-string[]
      */
     private function convertConstructsToStrings(array $constructs): array
     {
@@ -93,6 +102,7 @@ class ConstructFinder
     }
 
     /**
+     * @param 'trait'|'class'|'enum'|'interface' $type
      * @return Construct[]
      */
     public function findOfType(string $type): array
@@ -110,6 +120,9 @@ class ConstructFinder
         return $this->findOfType('class');
     }
 
+    /**
+     * @return class-string[]
+     */
     public function findClassNames(): array
     {
         return $this->convertConstructsToStrings($this->findClasses());
@@ -123,6 +136,9 @@ class ConstructFinder
         return $this->findOfType('enum');
     }
 
+    /**
+     * @return class-string[]
+     */
     public function findEnumNames(): array
     {
         return $this->convertConstructsToStrings($this->findEnums());
@@ -136,21 +152,33 @@ class ConstructFinder
         return $this->findOfType('interface');
     }
 
+    /**
+     * @return class-string[]
+     */
     public function findInterfaceNames(): array
     {
         return $this->convertConstructsToStrings($this->findInterfaces());
     }
 
+    /**
+     * @return Construct[]
+     */
     public function findTraits(): array
     {
         return $this->findOfType('trait');
     }
 
+    /**
+     * @return class-string[]
+     */
     public function findTraitNames(): array
     {
         return $this->convertConstructsToStrings($this->findTraits());
     }
 
+    /**
+     * @return Generator<string>
+     */
     private function locatePathsIn(string $directory): Generator
     {
         $iterator = new RecursiveIteratorIterator(
@@ -165,7 +193,7 @@ class ConstructFinder
 
             $realPath = $file->getRealPath();
 
-            if (substr($realPath, -4) !== '.php') {
+            if ($realPath === false || substr($realPath, -4) !== '.php') {
                 continue;
             }
 
@@ -175,9 +203,12 @@ class ConstructFinder
 
     public static function locatedIn(string ...$directory): self
     {
-        return new static($directory);
+        return new self($directory);
     }
 
+    /**
+     * @return Construct[]
+     */
     private static function findConstructsInPath(string $path): array
     {
         $source = file_get_contents($path) ?: '';
@@ -204,22 +235,26 @@ class ConstructFinder
             }
 
             if ($token[0] === T_NAMESPACE) {
-                $namespace = static::collectNamespace($index + 1, $tokens);
+                $namespace = self::collectNamespace($index + 1, $tokens);
             }
 
-            if (array_key_exists($token[0], $interestingTokens) === false || static::isNew($index - 1, $tokens)) {
+            if (array_key_exists($token[0], $interestingTokens) === false || self::isNew($index - 1, $tokens)) {
                 continue;
             }
 
             $classToken = $tokens[$index + 1];
             $type = $interestingTokens[$token[0]];
             $name = trim("$namespace\\$classToken[1]", '\\');
+            // @phpstan-ignore-next-line since we know $name is a class-string
             $classes[] = new Construct($name, $type);
         }
 
         return $classes;
     }
 
+    /**
+     * @param array<int, array<int, int|string>|string> $tokens
+     */
     private static function collectNamespace(int $index, array $tokens): string
     {
         $token = $tokens[$index] ?? '';
@@ -252,6 +287,9 @@ class ConstructFinder
         return implode('', $parts);
     }
 
+    /**
+     * @param array<int, array<int, int|string>|string> $tokens
+     */
     private static function isNew(int $index, array $tokens): bool
     {
         $token = $tokens[$index] ?? '';
@@ -280,6 +318,9 @@ class ConstructFinder
         return $patterns;
     }
 
+    /**
+     * @return Generator<string>
+     */
     private function listAllFiles(): Generator
     {
         foreach ($this->locations as $location) {
@@ -287,6 +328,11 @@ class ConstructFinder
         }
     }
 
+    /**
+     * @param Generator<string> $listing
+     *
+     * @return Generator<string>
+     */
     private function processExcludes(Generator $listing): Generator
     {
         foreach ($listing as $path) {
@@ -301,6 +347,11 @@ class ConstructFinder
         }
     }
 
+    /**
+     * @param Generator<string> $listing
+     *
+     * @return Generator<Construct>
+     */
     private function collectConstructs(Generator $listing): Generator
     {
         foreach ($listing as $path) {
