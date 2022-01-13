@@ -193,7 +193,7 @@ class ConstructFinder
 
             $realPath = $file->getRealPath();
 
-            if (substr($realPath, -4) !== '.php') {
+            if ($realPath === false || substr($realPath, -4) !== '.php') {
                 continue;
             }
 
