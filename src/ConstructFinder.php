@@ -72,6 +72,9 @@ class ConstructFinder
         return array_values($constructs);
     }
 
+    /**
+     * @return class-string[]
+     */
     public function findAllNames(): array
     {
         return $this->convertConstructsToStrings($this->findAll());
@@ -79,7 +82,7 @@ class ConstructFinder
 
     /**
      * @param Construct[] $constructs
-     * @return string[]
+     * @return class-string[]
      */
     private function convertConstructsToStrings(array $constructs): array
     {
@@ -110,6 +113,9 @@ class ConstructFinder
         return $this->findOfType('class');
     }
 
+    /**
+     * @return class-string[]
+     */
     public function findClassNames(): array
     {
         return $this->convertConstructsToStrings($this->findClasses());
@@ -123,6 +129,9 @@ class ConstructFinder
         return $this->findOfType('enum');
     }
 
+    /**
+     * @return class-string[]
+     */
     public function findEnumNames(): array
     {
         return $this->convertConstructsToStrings($this->findEnums());
@@ -136,16 +145,25 @@ class ConstructFinder
         return $this->findOfType('interface');
     }
 
+    /**
+     * @return class-string[]
+     */
     public function findInterfaceNames(): array
     {
         return $this->convertConstructsToStrings($this->findInterfaces());
     }
 
+    /**
+     * @return Construct[]
+     */
     public function findTraits(): array
     {
         return $this->findOfType('trait');
     }
 
+    /**
+     * @return class-string[]
+     */
     public function findTraitNames(): array
     {
         return $this->convertConstructsToStrings($this->findTraits());

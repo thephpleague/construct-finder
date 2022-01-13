@@ -27,6 +27,9 @@ class Construct
         $this->type = $type;
     }
 
+    /**
+     * @return class-string
+     */
     public function name(): string
     {
         return $this->name;
@@ -37,6 +40,9 @@ class Construct
         return $this->type;
     }
 
+    /**
+     * @return class-string
+     */
     public function __toString(): string
     {
         return $this->name;
