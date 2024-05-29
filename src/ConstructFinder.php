@@ -234,7 +234,7 @@ class ConstructFinder
                 $namespace = self::collectNamespace($index + 1, $tokens);
             }
 
-            if (array_key_exists($token[0], $interestingTokens) === false || self::isNew($index - 1, $tokens)) {
+            if (array_key_exists($token[0], $interestingTokens) === false || self::isAnonymousClass($index, $tokens)) {
                 continue;
             }
 
@@ -286,6 +286,21 @@ class ConstructFinder
     /**
      * @param array<int, array<int, int|string>|string> $tokens
      */
+    private static function isAnonymousClass(int $index, array $tokens): bool
+    {
+        // Anonymous class written as: new class (...)
+        if (self::isNew($index - 1, $tokens)) {
+            return true;
+        }
+
+        // Anonymous class written as: new readonly class (...)
+        return self::isReadonly($index - 1, $tokens)
+            && self::isNew($index - 2, $tokens);
+    }
+
+    /**
+     * @param array<int, array<int, int|string>|string> $tokens
+     */
     private static function isNew(int $index, array $tokens): bool
     {
         $token = $tokens[$index] ?? '';
@@ -297,6 +312,26 @@ class ConstructFinder
         $type = $token[0] ?? '';
 
         return $type === T_NEW;
+    }
+
+    /**
+     * @param array<int, array<int, int|string>|string> $tokens
+     */
+    private static function isReadonly(int $index, array $tokens): bool
+    {
+        if (PHP_VERSION_ID < 80300) {
+            return false;
+        }
+
+        $token = $tokens[$index] ?? '';
+
+        if ( ! is_array($token)) {
+            return false;
+        }
+
+        $type = $token[0] ?? '';
+
+        return $type === T_READONLY;
     }
 
     /**
