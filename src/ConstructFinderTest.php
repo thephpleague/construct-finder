@@ -9,6 +9,7 @@ use League\ConstructFinder\Fixtures\SomeEnum;
 use League\ConstructFinder\Fixtures\SomeInterface;
 use League\ConstructFinder\Fixtures\SomeTrait;
 use PHPUnit\Framework\TestCase;
+use const PHP_VERSION_ID;
 
 class ConstructFinderTest extends TestCase
 {
@@ -66,6 +67,18 @@ class ConstructFinderTest extends TestCase
 
         self::assertCount(2, $constructs);
         self::assertContainsOnlyInstancesOf(Construct::class, $constructs);
+    }
+
+    /**
+     * @test
+     * @requires PHP >= 8.3
+     */
+    public function it_ignores_anonymous_readonly_classes(): void
+    {
+        $classes = ConstructFinder::locatedIn(__DIR__ . '/Fixtures_83/')
+            ->findClasses();
+
+        self::assertCount(0, $classes);
     }
 
     /**

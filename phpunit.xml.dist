@@ -8,6 +8,7 @@
         <exclude>
             <directory suffix="Test.php">src/</directory>
             <directory>src/Fixtures</directory>
+            <directory>src/Fixtures_83</directory>
         </exclude>
         <report>
             <clover outputFile="build/clover.xml"/>
