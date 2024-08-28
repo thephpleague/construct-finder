@@ -26,6 +26,7 @@ use function token_get_all;
 use function trim;
 use function usort;
 
+use const PHP_VERSION_ID;
 use const T_CLASS;
 use const T_COMMENT;
 use const T_DOC_COMMENT;
@@ -33,6 +34,7 @@ use const T_ENUM;
 use const T_INTERFACE;
 use const T_NAMESPACE;
 use const T_NEW;
+use const T_READONLY;
 use const T_STRING;
 use const T_TRAIT;
 use const T_WHITESPACE;
@@ -234,7 +236,11 @@ class ConstructFinder
                 $namespace = self::collectNamespace($index + 1, $tokens);
             }
 
-            if (array_key_exists($token[0], $interestingTokens) === false || self::isNew($index - 1, $tokens)) {
+            if (
+                array_key_exists($token[0], $interestingTokens) === false
+                || self::isNew($index - 1, $tokens)
+                || self::isReadonly($index - 1, $tokens)
+            ) {
                 continue;
             }
 
@@ -297,6 +303,26 @@ class ConstructFinder
         $type = $token[0] ?? '';
 
         return $type === T_NEW;
+    }
+
+    /**
+     * @param array<int, array<int, int|string>|string> $tokens
+     */
+    private static function isReadonly(int $index, array $tokens): bool
+    {
+        if (PHP_VERSION_ID < 80100) {
+            return false;
+        }
+
+        $token = $tokens[$index] ?? '';
+
+        if ( ! is_array($token)) {
+            return false;
+        }
+
+        $type = $token[0] ?? '';
+
+        return $type === T_READONLY;
     }
 
     /**
