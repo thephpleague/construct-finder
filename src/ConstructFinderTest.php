@@ -45,7 +45,9 @@ class ConstructFinderTest extends TestCase
             SomeTrait::class,
         ];
 
-        $constructs = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')->findAllNames();
+        $constructs = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
+            ->exclude('*83+.php')
+            ->findAllNames();
 
         self::assertCount(4, $constructs);
         self::assertContainsOnly('string', $constructs);
