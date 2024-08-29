@@ -25,7 +25,9 @@ class ConstructFinderTest extends TestCase
             new Construct(SomeTrait::class, 'trait'),
         ];
 
-        $constructs = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')->findAll();
+        $constructs = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
+            ->exclude('*83.php')
+            ->findAll();
 
         self::assertCount(4, $constructs);
         self::assertContainsOnlyInstancesOf(Construct::class, $constructs);
@@ -45,7 +47,9 @@ class ConstructFinderTest extends TestCase
             SomeTrait::class,
         ];
 
-        $constructs = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')->findAllNames();
+        $constructs = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
+            ->exclude('*83.php')
+            ->findAllNames();
 
         self::assertCount(4, $constructs);
         self::assertContainsOnly('string', $constructs);
@@ -74,8 +78,22 @@ class ConstructFinderTest extends TestCase
     public function it_can_find_only_classes(): void
     {
         $classes = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
-            ->exclude('*Enum.php') // PHP 8.1
-            ->findClasses();
+            ->exclude(
+                '*Enum.php', // PHP 8.1
+                '*83.php', // PHP 8.3
+            )->findClasses();
+
+        self::assertCount(1, $classes);
+        self::assertEquals('class', $classes[0]->type());
+    }
+
+    /**
+     * @test
+     * @requires PHP >= 8.3
+     */
+    public function it_can_find_only_classes_and_ignores_anonymous_ones(): void
+    {
+        $classes = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')->findClasses();
 
         self::assertCount(1, $classes);
         self::assertEquals('class', $classes[0]->type());
@@ -87,7 +105,10 @@ class ConstructFinderTest extends TestCase
     public function it_can_find_only_class_names(): void
     {
         $classes = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
-            ->exclude('*Enum.php') // PHP 8.1
+            ->exclude(
+                '*Enum.php', // PHP 8.1
+                '*83.php', // PHP 8.3
+            )
             ->findClassNames();
 
         self::assertCount(1, $classes);
@@ -100,7 +121,10 @@ class ConstructFinderTest extends TestCase
     public function it_can_find_only_interfaces(): void
     {
         $classes = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
-            ->exclude('*Enum.php') // PHP 8.1
+            ->exclude(
+                '*Enum.php', // PHP 8.1
+                '*83.php', // PHP 8.3
+            )
             ->findInterfaces();
 
         self::assertCount(1, $classes);
@@ -113,7 +137,10 @@ class ConstructFinderTest extends TestCase
     public function it_can_find_only_interface_names(): void
     {
         $classes = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
-            ->exclude('*Enum.php') // PHP 8.1
+            ->exclude(
+                '*Enum.php', // PHP 8.1
+                '*83.php', // PHP 8.3
+            )
             ->findInterfaceNames();
 
         self::assertCount(1, $classes);
@@ -126,7 +153,10 @@ class ConstructFinderTest extends TestCase
     public function it_can_find_only_traits(): void
     {
         $classes = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
-            ->exclude('*Enum.php') // PHP 8.1
+            ->exclude(
+                '*Enum.php', // PHP 8.1
+                '*83.php', // PHP 8.3
+            )
             ->findTraits();
 
         self::assertCount(1, $classes);
@@ -139,7 +169,10 @@ class ConstructFinderTest extends TestCase
     public function it_can_find_only_trait_names(): void
     {
         $classes = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
-            ->exclude('*Enum.php') // PHP 8.1
+            ->exclude(
+                '*Enum.php', // PHP 8.1
+                '*83.php', // PHP 8.3
+            )
             ->findTraitNames();
 
         self::assertCount(1, $classes);
@@ -152,7 +185,11 @@ class ConstructFinderTest extends TestCase
      */
     public function it_can_find_only_enums(): void
     {
-        $classes = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')->findEnums();
+        $classes = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
+            ->exclude(
+                '*83.php', // PHP 8.3
+            )
+            ->findEnums();
 
         self::assertCount(1, $classes);
         self::assertEquals('enum', $classes[0]->type());
@@ -164,7 +201,11 @@ class ConstructFinderTest extends TestCase
      */
     public function it_can_find_only_enums_names(): void
     {
-        $classes = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')->findEnumNames();
+        $classes = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
+            ->exclude(
+                '*83.php', // PHP 8.3
+            )
+            ->findEnumNames();
 
         self::assertCount(1, $classes);
         self::assertSame(SomeEnum::class, $classes[0]);
