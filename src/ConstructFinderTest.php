@@ -25,7 +25,9 @@ class ConstructFinderTest extends TestCase
             new Construct(SomeTrait::class, 'trait'),
         ];
 
-        $constructs = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')->findAll();
+        $constructs = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
+            ->exclude('*83.php')
+            ->findAll();
 
         self::assertCount(4, $constructs);
         self::assertContainsOnlyInstancesOf(Construct::class, $constructs);
@@ -46,7 +48,7 @@ class ConstructFinderTest extends TestCase
         ];
 
         $constructs = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
-            ->exclude('*83+.php')
+            ->exclude('*83.php')
             ->findAllNames();
 
         self::assertCount(4, $constructs);
@@ -78,7 +80,7 @@ class ConstructFinderTest extends TestCase
         $classes = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
             ->exclude(
                 '*Enum.php', // PHP 8.1
-                '*83+.php', // PHP 8.3
+                '*83.php', // PHP 8.3
             )->findClasses();
 
         self::assertCount(1, $classes);
@@ -105,7 +107,7 @@ class ConstructFinderTest extends TestCase
         $classes = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
             ->exclude(
                 '*Enum.php', // PHP 8.1
-                '*83+.php', // PHP 8.3
+                '*83.php', // PHP 8.3
             )
             ->findClassNames();
 
@@ -121,7 +123,7 @@ class ConstructFinderTest extends TestCase
         $classes = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
             ->exclude(
                 '*Enum.php', // PHP 8.1
-                '*83+.php', // PHP 8.3
+                '*83.php', // PHP 8.3
             )
             ->findInterfaces();
 
@@ -137,7 +139,7 @@ class ConstructFinderTest extends TestCase
         $classes = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
             ->exclude(
                 '*Enum.php', // PHP 8.1
-                '*83+.php', // PHP 8.3
+                '*83.php', // PHP 8.3
             )
             ->findInterfaceNames();
 
@@ -153,7 +155,7 @@ class ConstructFinderTest extends TestCase
         $classes = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
             ->exclude(
                 '*Enum.php', // PHP 8.1
-                '*83+.php', // PHP 8.3
+                '*83.php', // PHP 8.3
             )
             ->findTraits();
 
@@ -169,7 +171,7 @@ class ConstructFinderTest extends TestCase
         $classes = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
             ->exclude(
                 '*Enum.php', // PHP 8.1
-                '*83+.php', // PHP 8.3
+                '*83.php', // PHP 8.3
             )
             ->findTraitNames();
 
@@ -185,7 +187,7 @@ class ConstructFinderTest extends TestCase
     {
         $classes = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
             ->exclude(
-                '*83+.php', // PHP 8.3
+                '*83.php', // PHP 8.3
             )
             ->findEnums();
 
@@ -201,7 +203,7 @@ class ConstructFinderTest extends TestCase
     {
         $classes = ConstructFinder::locatedIn(__DIR__ . '/Fixtures/')
             ->exclude(
-                '*83+.php', // PHP 8.3
+                '*83.php', // PHP 8.3
             )
             ->findEnumNames();
 
