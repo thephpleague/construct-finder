@@ -3,7 +3,7 @@
     "description": "Finds classes, interfaces, traits, and enums.",
     "type": "library",
     "require": {
-        "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~7.4.0"
+        "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~7.4.0"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.3",
